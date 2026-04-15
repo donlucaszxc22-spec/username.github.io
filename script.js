@@ -14,8 +14,43 @@ const books = [
     { id: 12, title: "Bird Box", author: "Josh Malerman", category: "horror", img: "https://upload.wikimedia.org/wikipedia/en/b/b9/Bird_Box_2014_book_cover.jpg", desc: "Five years after it began, a mother and her two children must navigate a river blindfolded." }
 ];
 
+
+// ✅ MOVED OUTSIDE (GLOBAL)
+function generateStory(book) {
+    const chapters = 6;
+    const paragraphsPerChapter = 8;
+    let storyHTML = `<h1>${book.title}</h1><p style="text-align:center"><i>The complete digital edition</i></p><br>`;
+
+    for (let i = 1; i <= chapters; i++) {
+        storyHTML += `<h2>Chapter ${i}</h2>`;
+        for (let j = 0; j < paragraphsPerChapter; j++) {
+            storyHTML += `
+            <p>The atmosphere of ${book.category} surrounded the protagonist as the events of ${book.title} began to unfold. It was a time of great uncertainty, yet the prose of ${book.author} guided the reader through every twist and turn.</p>
+            <p>As the sun dipped below the horizon, the narrative deepened. The complexity of the plot thickened, weaving together subplots of ${book.category} and character arcs that demanded attention.</p>
+            `;
+        }
+    }
+    return storyHTML;
+}
+
+
+// ✅ MOVED OUTSIDE (GLOBAL)
+function startReading(id) {
+    const book = books.find(b => b.id === id);
+    const overlay = document.getElementById('readerOverlay');
+
+    document.getElementById('readingTitle').innerText = book.title;
+    document.getElementById('readingAuthor').innerText = book.author;
+    document.getElementById('textContent').innerHTML = generateStory(book);
+
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // --- THEME LOGIC (Works on all pages) ---
+
+    // --- THEME LOGIC ---
     const themeToggle = document.getElementById('theme-toggle');
     const savedTheme = localStorage.getItem('theme') || 'light';
 
@@ -32,106 +67,76 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function updateThemeIcon(theme) {
-        themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        themeToggle.innerHTML = theme === 'dark'
+            ? '<i class="fas fa-sun"></i>'
+            : '<i class="fas fa-moon"></i>';
     }
 
-    // --- BOOKS PAGE LOGIC (Only runs if elements exist) ---
+    // --- BOOKS PAGE LOGIC ---
     const bookGrid = document.getElementById('bookGrid');
     const searchBar = document.getElementById('searchBar');
     const categoryFilter = document.getElementById('categoryFilter');
 
     if (bookGrid) {
-        // 1. Updated Books (Make sure the button says "Read")
+
         function Books(data) {
-            if (!bookGrid) return;
             bookGrid.innerHTML = data.map(book => `
-        <div class="book-card">
-            <img src="${book.img}" alt="${book.title}" class="book-img">
-            <div class="book-info">
-                <h3>${book.title}</h3>
-                <p>${book.author}</p>
-                <div class="card-btns">
-                    <button class="cta-btn" onclick="openModal(${book.id})">Details</button>
-                    <button class="cta-btn read-btn" onclick="startReading(${book.id})">Read</button>
+                <div class="book-card">
+                    <img src="${book.img}" alt="${book.title}" class="book-img">
+                    <div class="book-info">
+                        <h3>${book.title}</h3>
+                        <p>${book.author}</p>
+                        <div class="card-btns">
+                            <button class="cta-btn" onclick="openModal(${book.id})">Details</button>
+                            <button class="cta-btn read-btn" onclick="startReading(${book.id})">Read</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    `).join('');
-        }
-
-// 2. The Content Engine (Generates 2000+ words per book)
-        function generateStory(book) {
-            const chapters = 6;
-            const paragraphsPerChapter = 8;
-            let storyHTML = `<h1>${book.title}</h1><p style="text-align:center"><i>The complete digital edition</i></p><br>`;
-
-            for (let i = 1; i <= chapters; i++) {
-                storyHTML += `<h2>Chapter ${i}</h2>`;
-                for (let j = 0; j < paragraphsPerChapter; j++) {
-                    storyHTML += `
-                <p>The atmosphere of ${book.category} surrounded the protagonist as the events of ${book.title} began to unfold. It was a time of great uncertainty, yet the prose of ${book.author} guided the reader through every twist and turn. In this vast landscape of imagination, every word served as a bridge to a deeper understanding of the human condition.</p>
-                <p>As the sun dipped below the horizon, the narrative deepened. This long-form text is designed to ensure a immersive scrolling experience of over two thousand words. The complexity of the plot thickened, weaving together subplots of ${book.category} and character arcs that demanded the reader's full attention. With every scroll down, more of the mystery is revealed, inviting you to stay a while longer in this digital world.</p>
-            `;
-                }
-            }
-            return storyHTML;
-        }
-
-// 3. Reader Control Functions
-        function startReading(id) {
-            const book = books.find(b => b.id === id);
-            const overlay = document.getElementById('readerOverlay');
-
-            document.getElementById('readingTitle').innerText = book.title;
-            document.getElementById('readingAuthor').innerText = book.author;
-            document.getElementById('textContent').innerHTML = generateStory(book);
-
-            overlay.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Disable background scroll
+            `).join('');
         }
 
         document.getElementById('exitReader').addEventListener('click', () => {
             document.getElementById('readerOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Re-enable scroll
+            document.body.style.overflow = 'auto';
         });
-
-// Font Adjustment
-        let fontSize = 1.25;
-        function changeFontSize(delta) {
-            fontSize += delta * 0.1;
-            document.getElementById('textContent').style.fontSize = fontSize + 'rem';
-        }
 
         Books(books);
 
         searchBar.addEventListener('input', () => {
             const term = searchBar.value.toLowerCase();
-            const filtered = books.filter(b => b.title.toLowerCase().includes(term) || b.author.toLowerCase().includes(term));
+            const filtered = books.filter(b =>
+                b.title.toLowerCase().includes(term) ||
+                b.author.toLowerCase().includes(term)
+            );
             Books(filtered);
         });
 
         categoryFilter.addEventListener('change', () => {
             const cat = categoryFilter.value;
-            const filtered = cat === 'all' ? books : books.filter(b => b.category === cat);
+            const filtered = cat === 'all'
+                ? books
+                : books.filter(b => b.category === cat);
             Books(filtered);
         });
     }
 
-    // --- CONTACT FORM LOGIC (Only runs on contact page) ---
+    // --- CONTACT FORM ---
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const status = document.getElementById('formStatus');
-            status.innerHTML = `<p style="color: #10b981; margin-top: 15px; font-weight: bold;">
-                <i class="fas fa-check-circle"></i> Message sent successfully!
-            </p>`;
+            status.innerHTML = `
+                <p style="color: #10b981; margin-top: 15px; font-weight: bold;">
+                    <i class="fas fa-check-circle"></i> Message sent successfully!
+                </p>`;
             contactForm.reset();
         });
     }
 });
 
-// Modal needs to be global to be called by the onclick attribute in HTML
+
+// Modal
 function openModal(id) {
     const book = books.find(b => b.id === id);
     const modal = document.getElementById('bookModal');
@@ -152,7 +157,6 @@ function openModal(id) {
     }
 }
 
-// Close modal logic
 window.onclick = (event) => {
     const modal = document.getElementById('bookModal');
     if (event.target === modal || event.target.classList.contains('close-modal')) {
