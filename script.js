@@ -560,6 +560,14 @@ function generateStory(book) {
     return storyHTML;
 }
 
+let currentReaderFontSize = 1.25;
+
+function changeFontSize(delta) {
+    const content = document.getElementById('textContent');
+    if (!content) return;
+    currentReaderFontSize = Math.min(Math.max(currentReaderFontSize + (delta * 0.1), 0.7), 2.5);
+    content.style.fontSize = `${currentReaderFontSize}rem`;
+}
 
 // ✅ MOVED OUTSIDE (GLOBAL)
 function startReading(id) {
@@ -579,12 +587,15 @@ function startReading(id) {
 
     title.innerText = book.title;
     author.innerText = book.author;
+    currentReaderFontSize = 1.25;
+    content.style.fontSize = `${currentReaderFontSize}rem`;
     content.innerHTML = generateStory(book);
 
     overlay.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
 window.startReading = startReading;
+window.changeFontSize = changeFontSize;
 
 document.addEventListener('DOMContentLoaded', () => {
 
