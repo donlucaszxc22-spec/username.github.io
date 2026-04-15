@@ -18,7 +18,7 @@ const books = [
 // ✅ MOVED OUTSIDE (GLOBAL)
 function generateStory(book) {
     const chapters = 10;
-    const paragraphsPerChapter = 7;
+    const paragraphsPerChapter = 1; // one rich paragraph per chapter
     const genreTemplates = {
         fiction: {
             voice: 'emotional and reflective prose',
@@ -503,9 +503,7 @@ function generateStory(book) {
 
     for (let chapter = 1; chapter <= chapters; chapter++) {
         storyHTML += `<h2>Chapter ${chapter}</h2>`;
-        for (let paragraph = 0; paragraph < paragraphsPerChapter; paragraph++) {
-            storyHTML += `<p>${makeParagraph(chapter, paragraph)}</p>`;
-        }
+        storyHTML += `<p>${makeParagraph(chapter, 0)}</p>`;
     }
 
     storyHTML += `<h2>Epilogue</h2>`;
