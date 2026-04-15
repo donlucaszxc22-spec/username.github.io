@@ -46,7 +46,7 @@ function startReading(id) {
     overlay.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
-
+window.startReading = startReading;
 
 document.addEventListener('DOMContentLoaded', () => {
 
