@@ -36,12 +36,23 @@ function generateStory(book) {
 
 // ✅ MOVED OUTSIDE (GLOBAL)
 function startReading(id) {
-    const book = books.find(b => b.id === id);
-    const overlay = document.getElementById('readerOverlay');
+    console.log("CLICKED", id);
 
-    document.getElementById('readingTitle').innerText = book.title;
-    document.getElementById('readingAuthor').innerText = book.author;
-    document.getElementById('textContent').innerHTML = generateStory(book);
+    const book = books.find(b => b.id === id);
+
+    const overlay = document.getElementById('readerOverlay');
+    const title = document.getElementById('readingTitle');
+    const author = document.getElementById('readingAuthor');
+    const content = document.getElementById('textContent');
+
+    if (!overlay || !title || !author || !content) {
+        console.error("Missing HTML elements!");
+        return;
+    }
+
+    title.innerText = book.title;
+    author.innerText = book.author;
+    content.innerHTML = generateStory(book);
 
     overlay.style.display = 'block';
     document.body.style.overflow = 'hidden';
