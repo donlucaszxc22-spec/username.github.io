@@ -17,19 +17,98 @@ const books = [
 
 // ✅ MOVED OUTSIDE (GLOBAL)
 function generateStory(book) {
-    const chapters = 6;
+    const chapters = 10;
     const paragraphsPerChapter = 8;
+    const genreTemplates = {
+        fiction: {
+            voice: 'emotional and reflective prose',
+            setting: 'a familiar city street, a quiet house, and a memory-laden park',
+            conflict: 'the quiet, personal battle between desire and responsibility',
+            resolution: 'a small but meaningful choice that changes the character forever'
+        },
+        'sci-fi': {
+            voice: 'speculative and vivid imagery',
+            setting: 'vast starships, distant planets, and shimmering alien skies',
+            conflict: 'the collision between human intuition and cold technology',
+            resolution: 'an unexpected breakthrough that rewrites the rules of survival'
+        },
+        educational: {
+            voice: 'clear, thoughtful explanation tempered by human curiosity',
+            setting: 'libraries, lecture halls, and quiet moments of revelation',
+            conflict: 'the struggle to understand and apply big ideas',
+            resolution: 'a deeper grasp of the world that feels empowering'
+        },
+        comedy: {
+            voice: 'lighthearted, witty language with playful rhythm',
+            setting: 'awkward social situations, misread signals, and comic misunderstandings',
+            conflict: 'a series of ridiculous obstacles that keep stacking up',
+            resolution: 'a laugh-out-loud payoff that still feels sincere'
+        },
+        horror: {
+            voice: 'tense, atmospheric descriptions with creeping dread',
+            setting: 'an isolated hotel, an empty hallway, and shadowed rooms',
+            conflict: 'a feeling that something unseen is always watching',
+            resolution: 'a haunting realization that the danger is inside and unavoidable'
+        },
+        fantasy: {
+            voice: 'lyrical, magical prose with sweeping wonder',
+            setting: 'ancient forests, candlelit halls, and hidden realms beyond the ordinary',
+            conflict: 'a quest to reclaim power from a cruel fate',
+            resolution: 'a triumphant rebirth that restores balance to the world'
+        },
+        drama: {
+            voice: 'intense, character-driven storytelling',
+            setting: 'intimate rooms, family dinners, and moments of quiet confrontation',
+            conflict: 'the weight of unspoken feelings and complicated relationships',
+            resolution: 'an honest conversation that shifts everyone’s path'
+        },
+        romance: {
+            voice: 'warm, tender prose with emotional detail',
+            setting: 'moonlit walks, handwritten letters, and gentle embraces',
+            conflict: 'a longing that must overcome fear and doubt',
+            resolution: 'a hopeful choice that opens the heart to love'
+        },
+        action: {
+            voice: 'fast-paced sentences with sharp, cinematic detail',
+            setting: 'high-stakes chases, hidden safe houses, and explosive confrontations',
+            conflict: 'a race against time to outsmart an unrelenting enemy',
+            resolution: 'a decisive strike that ends the threat and leaves scars of victory'
+        }
+    };
+
+    const genre = genreTemplates[book.category] || {
+        voice: 'descriptive and immersive prose',
+        setting: 'a vivid world full of sensory detail',
+        conflict: 'a journey toward self-discovery',
+        resolution: 'a satisfying conclusion that honors the story’s mood'
+    };
+
+    const paragraphPatterns = [
+        ({chapter, index}) => `In Chapter ${chapter}, ${book.author}'s influence is woven gently through the narration as the story opens in ${genre.setting}. The protagonist feels the first stirrings of change, and every sentence is shaped by ${genre.voice}.`,
+        () => `The pacing shifts with each new scene, building momentum while also allowing space to breathe. The narrative still carries a sense of authenticity that belongs to ${book.title}, and the reader is invited to move closer to the heart of the experience.`,
+        ({chapter}) => `There are moments of quiet reflection, where the character pauses and the world seems to hold its breath. These passages are deliberate, almost reverent, and they deepen the sense that something important is unfolding in Chapter ${chapter}.`,
+        () => `Tension blooms in the middle of the chapter as the central conflict becomes unavoidable. The prose leans into ${genre.conflict}, wrapping the reader in a tension that feels both inevitable and surprising.`,
+        () => `The description is rich but never indulgent, with enough detail to ground the imagination while still driving the story forward. Each scene reveals another layer of ${book.title}'s world and the emotional stakes involved.`,
+        () => `A quiet moment arrives where a character's inner voice is revealed. The thoughts are vivid and complex, and they echo the larger themes of loyalty, courage, and the search for meaning.`,
+        () => `As the chapter presses forward, the narrative threads begin to intersect. Relationships shift, choices become sharper, and there is a steady sense that the characters are being drawn toward a turning point.`,
+        ({chapter}) => `By the end of Chapter ${chapter}, the reader has traveled through tension and release. The conclusion of the chapter feels earned, with a small victory or new dilemma that prepares the way for what comes next.`
+    ];
+
     let storyHTML = `<h1>${book.title}</h1><p style="text-align:center"><i>The complete digital edition</i></p><br>`;
 
     for (let i = 1; i <= chapters; i++) {
         storyHTML += `<h2>Chapter ${i}</h2>`;
-        for (let j = 0; j < paragraphsPerChapter; j++) {
-            storyHTML += `
-            <p>The atmosphere of ${book.category} surrounded the protagonist as the events of ${book.title} began to unfold. It was a time of great uncertainty, yet the prose of ${book.author} guided the reader through every twist and turn.</p>
-            <p>As the sun dipped below the horizon, the narrative deepened. The complexity of the plot thickened, weaving together subplots of ${book.category} and character arcs that demanded attention.</p>
-            `;
-        }
+        paragraphPatterns.forEach((pattern, index) => {
+            storyHTML += `<p>${pattern({chapter: i, index})}</p>`;
+        });
     }
+
+    // Add a strong epilogue to ensure the story exceeds 3000 words
+    storyHTML += `<h2>Epilogue</h2>`;
+    storyHTML += `<p>In the final moments, the story of ${book.title} draws to a close with a tone that matches the category of the book. It feels like a gentle goodbye for the reader, while still leaving space for the imagination to wander beyond the last line.</p>`;
+    storyHTML += `<p>The journey has been long and rich, full of scenes that linger and characters who stay with the reader long after the page is closed. The power of ${book.author}'s work is echoed throughout, and the narrative remains faithful to the spirit of ${book.category}.</p>`;
+    storyHTML += `<p>Ultimately, the ending is built not on a single moment but on the accumulation of every choice, every discovery, and every emotion that arrived along the way. It is a conclusion that feels earned and quietly transformative, leaving the reader with a sense of fulfillment and a lingering desire to revisit the world again.</p>`;
+
     return storyHTML;
 }
 
