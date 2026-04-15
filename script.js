@@ -338,6 +338,88 @@ function generateStory(book) {
         resolution: ['A thoughtful conclusion arrives with a sense of purpose.']
     };
 
+    const bookSpecific = {
+        1: {
+            theme: ['a library of alternate lives holds the weight of every possible choice.', 'the protagonist stands between mistakes and second chances.', 'every path unchosen becomes a whisper inside the midnight library.', 'regret and hope are shelves of equal importance.'],
+            scene: ['a quiet room lined with books that smell of rain and time.', 'a library that is both refuge and judgment hall, where each volume reflects a life that might have been.', 'a corridor of memories that leads to doors labeled with what-if moments.', 'a gentle voice explains that the right life is not always the obvious one.'],
+            conflict: ['the struggle to accept the cost of changing one life for another.', 'the tension between comfort and the impossible promise of a different peace.', 'the realization that every choice carries a consequence that changes the soul.', 'the fear that making a new choice might mean losing the old one forever.'],
+            resolution: ['acceptance arrives like morning after a long night of wondering.', 'a final choice honors both the past and what remains possible.', 'the protagonist finds peace in the knowledge that every life contained meaning.', 'the ending carries the quiet power of choosing a path that feels truly one’s own.']
+        },
+        2: {
+            theme: ['an impossible mission to save Earth begins with one stubborn human problem-solver.', 'science and survival collide on a ship moving faster than fear.', 'alien life opens a door to understanding what it means to be human.', 'a lone astronaut must become the smartest person in the universe to survive.'],
+            scene: ['a sterile spaceship hums with the sound of emergency systems and quiet determination.', 'a distant star is framed in a viewport, a reminder of home and the distance from it.', 'an alien organism behaves like nothing anyone has seen before, beautiful and terrifying.', 'lab equipment glows under the hands of a scientist who knows every second counts.'],
+            conflict: ['the protagonist balances scientific curiosity with the raw need to stay alive.', 'every calculation could be the difference between rescue and oblivion.', 'the ship’s only hope lies in understanding an alien biology that defies every rule.', 'the mission becomes a race against an invisible clock that is closing faster than anyone expected.'],
+            resolution: ['a discovery reshapes the meaning of partnership between species.', 'survival depends on a choice that no protocol can predict.', 'the book closes with the knowledge that the future of Earth is still not decided.', 'victory arrives through adaptation, not brute force.']
+        },
+        3: {
+            theme: ['small habits become the architecture of a better life.', 'change begins with tiny, almost invisible shifts.', 'consistency can move mountains when it is built one step at a time.', 'each repeated routine is a quiet investment in a stronger self.'],
+            scene: ['a morning routine becomes a ritual of possibility.', 'a notebook fills with habits, goals, and the science behind them.', 'each tiny action is described as if it were a brick in a new foundation.', 'a small success is celebrated as proof that the system works.'],
+            conflict: ['the difficulty of making new habits stick when old patterns feel safer.', 'the protagonist sees how a single bad habit can undermine an entire plan.', 'the struggle is less dramatic than it is persistent and unavoidable.', 'fear of failure threatens to keep the changes from ever starting.'],
+            resolution: ['a new routine becomes second nature, born from repeated effort.', 'the chapter ends with a sense of momentum that comes from consistent progress.', 'a higher objective is reached because the protagonist chose habits over shortcuts.', 'the reader feels empowered by the idea that change is built over time.']
+        },
+        4: {
+            theme: ['the absurdity of traveling through the galaxy with only a towel and a sense of bewilderment.', 'strange encounters prove that the universe is far weirder than anyone imagined.', 'humor is the only way to cope when everything is inexplicably wrong.', 'life becomes a series of improbable events held together by wit.'],
+            scene: ['a spaceship pub smells of alien spices and disappointment.', 'a conversational robot delivers the kind of advice no one asked for.', 'a countdown to an improbable rescue unfolds in the most inconvenient location possible.', 'a towel is treated like a sacred artifact with more importance than it deserves.'],
+            conflict: ['the protagonist is chased by bureaucratic aliens and cosmic coincidence.', 'every attempt to find a proper guide leads to greater confusion.', 'deadpan humor becomes the only tool against the darkness of space.', 'the absurdity of the situation threatens to swallow any sense of progress.'],
+            resolution: ['the chapter wraps with a punchline that still feels strangely wise.', 'surviving the mess becomes the greatest achievement of the day.', 'a crew member delivers the most sincere advice in the most ridiculous way.', 'the ending leaves the reader laughing and oddly reassured.']
+        },
+        5: {
+            theme: ['cold winter air and an old hotel hold secrets that should have stayed buried.', 'isolation becomes a mirror for the terror sleeping beneath the surface.', 'a family’s fragile calm is shattered by a force that knows their deepest fears.', 'the hotel itself feels alive and intent on keeping them trapped.'],
+            scene: ['a long hallway stretches into darkness and the sound of a distant piano.', 'frost creeps up the windows while something moves just outside the door.', 'a child’s laughter turns hollow in an empty, overheated room.', 'the red elevator fills with a sense of dread instead of warmth.'],
+            conflict: ['the family struggles to keep each other together while the hotel tears them apart.', 'every knock on the door feels like the arrival of something worse than winter.', 'the protagonist fights to stay sane while the building seems to work against them.', 'darkness becomes not only a lack of light but a living presence.'],
+            resolution: ['the chapter ends with a decision that feels like either salvation or surrender.', 'the family learns that the only defense may be to face the evil directly.', 'a moment of courage shines in a place built to extinguish it.', 'the final image is one of fragile hope in a room that has seen too much horror.']
+        },
+        6: {
+            theme: ['a gifted musician searches for his true name in a world full of secrets.', 'magic is entwined with story, and every memory is a spell.', 'a school of incredible power is also a place of ruthless challenge.', 'a wandering life leads to a destiny written in song.'],
+            scene: ['a common room thrums with whispered legends and urgent ambition.', 'a festival of fire reveals both danger and beauty.', 'a hidden library contains secrets that could change everything.', 'a simple tune becomes the key to opening a door no one else can see.'],
+            conflict: ['the protagonist must learn to trust himself amid fear and prejudice.', 'a cruel master tests the boundaries of knowledge and endurance.', 'sharp rivalries make every friendship feel both precious and tentative.', 'the cost of power becomes painfully clear in the quiet hours.'],
+            resolution: ['the chapter ends with a small triumph that hints at a larger destiny.', 'a name is spoken and the world shifts in a way that feels inevitable.', 'the protagonist walks away changed, carrying a new story inside him.', 'a choice is made that honors both talent and humility.']
+        },
+        7: {
+            theme: ['a fragile relationship is formed and tested by the messiness of growing up.', 'the characters make and unmake each other in equal measure.', 'class and intimacy intertwine in ways that are beautiful and painful.', 'love is not a destination but a series of imperfect decisions.'],
+            scene: ['a quiet kitchen conversation feels more revealing than any public display.', 'a shared silence reveals more about their connection than a thousand words.', 'a night out becomes a mirror of who they are and who they might become.', 'the weather seems to match the emotional weather inside the characters.'],
+            conflict: ['the difficulty of saying exactly what you mean without losing yourself.', 'a misunderstanding grows into a line that feels impossible to cross.', 'the protagonist is torn between independence and the pull of someone else.', 'society’s expectations weigh heavily on every choice they make together.'],
+            resolution: ['a small act of kindness becomes a turning point in the relationship.', 'honesty arrives in an unexpected moment and changes everything.', 'the chapter ends with the sense that they may not be perfect, but they are still choosing each other.', 'a new understanding is reached, fragile and hopeful.']
+        },
+        8: {
+            theme: ['a love story that survives memory, distance, and the cruelty of time.', 'letters and memories become the thread that keeps two people connected.', 'the past and present are woven together with the power of unwavering love.', 'a relationship is tested by everything the world can throw at it.'],
+            scene: ['a dusty attic full of photographs becomes a chapel of remembrance.', 'a handwritten letter is opened with trembling fingers and a hopeful heart.', 'a long bench by a lake transforms into the setting of a lifetime of promises.', 'a tear-streaked face remembers the warmth of a hand held long ago.'],
+            conflict: ['the struggle to keep love alive when the world is intent on pulling it apart.', 'memory becomes both a refuge and a source of pain.', 'fear of losing the person you love drives every decision.', 'distance and time create obstacles that feel almost impossible to overcome.'],
+            resolution: ['a reunion feels like a miracle and a quiet inevitability at once.', 'the end of the chapter is softened by the certainty that their love has endured.', 'a promise kept becomes the most beautiful thing in the world.', 'the story leaves the reader with the sense that love is the truest kind of home.']
+        },
+        9: {
+            theme: ['an elite assassin is hunted through cities and hidden places.', 'survival depends on staying three steps ahead of danger.', 'trust is a luxury no one in this world can afford.', 'the line between hunter and hunted is thinner than expected.'],
+            scene: ['a shadowy safe house hums with the sound of surveillance equipment.', 'a moving train becomes the stage for a last-second escape.', 'a crowded market is described with every possible route to escape.', 'a sudden explosion turns ordinary motion into chaos.'],
+            conflict: ['the protagonist must outthink an opponent who knows all their moves.', 'every ally could be a betrayer, and every plan could fail.', 'the clock is always ticking louder than the footsteps behind them.', 'the enemy uses the assassin’s own reputation against them.'],
+            resolution: ['a precise strike changes the balance of power in an instant.', 'the chapter ends with a narrow escape that feels both earned and inevitable.', 'the protagonist survives by trusting the instincts that have kept them alive so far.', 'the conclusion leaves scars and a renewed determination to keep moving.']
+        },
+        10: {
+            theme: ['big questions about the universe are answered with humility and wonder.', 'science and curiosity walk hand in hand through every chapter.', 'complex ideas are made simple enough to inspire awe in the reader.', 'the cosmos is as much a subject of feeling as of facts.'],
+            scene: ['a telescope points toward the sky while a candle burns in a quiet study.', 'a lecture hall fills with people waiting to hear the next big idea.', 'a simple analogy turns a cosmic mystery into something the reader can picture.', 'a conversation about the future of humanity feels intimate and urgent.'],
+            conflict: ['the tension between what we know and what remains unknowable.', 'finding answers does not erase the wonder of the questions.', 'science can explain much, but it cannot remove the feeling of awe.', 'the protagonist wrestles with the responsibility that comes with understanding.'],
+            resolution: ['the chapter ends with a clearer sense of our place in the universe.', 'a big question is answered in a way that feels both wise and hopeful.', 'the reader is left with more curiosity than certainty, and that is its own reward.', 'a conclusion arrives that honors both knowledge and mystery.']
+        },
+        11: {
+            theme: ['a young man grows up in a world built on absurd laws and quiet resistance.', 'humor becomes a tool for survival in a society that is often cruel.', 'family bonds are both the source of strength and the site of conflict.', 'identity is shaped by both ancestry and the choice to laugh anyway.'],
+            scene: ['a cramped kitchen echoes with laughter and the weight of hard truths.', 'a schoolyard becomes the setting for a lesson about belonging.', 'a radio broadcast carries both news and the ironic humor of life under apartheid.', 'a beat-up car becomes a safe space for stories and rebellion.'],
+            conflict: ['the protagonist is caught between the rules of society and his own sense of justice.', 'every step toward independence feels like a risk and a necessity.', 'the absurdity of the system is both maddening and darkly funny.', 'the desire to be himself conflicts with the need to stay safe.'],
+            resolution: ['a clever act of defiance becomes a turning point.', 'the chapter ends with a laugh that is equal parts relief and rebellion.', 'a truth is spoken that changes the way the protagonist sees his future.', 'the ending feels hopeful precisely because it is hard-won.']
+        },
+        12: {
+            theme: ['a mother protects her children in a world where seeing can mean death.', 'a river becomes both a route of escape and a path of danger.', 'the unseen enemy turns every ordinary sound into a threat.', 'family love becomes the strongest weapon in a blind world.'],
+            scene: ['a blindfolded mother moves silently through a forest that is both beautiful and deadly.', 'the river flows slow and relentless, carrying them toward a place they hope is safe.', 'each step is chosen with care, every sound examined for hidden meaning.', 'the children learn to trust their other senses as the world becomes sharper in different ways.'],
+            conflict: ['the protagonist must keep her fear from becoming the thing that dooms them.', 'every moment without sight raises the stakes of the journey.', 'the enemy is only ever hinted at, which makes it more terrifying.', 'the need to protect the family is constant and exhausting.'],
+            resolution: ['the chapter closes with the small victory of another mile reached together.', 'hope is kept alive by the love that moves them forward.', 'the ending feels fragile but real, because it is held by their shared trust.', 'the conclusion leaves the reader aware that survival is a choice made again and again.']
+        }
+    };
+
+    const specific = bookSpecific[book.id] || {
+        theme: ['a distinctive emotion anchors the story in its own world.'],
+        scene: ['the setting is described with details that make it unique.'],
+        conflict: ['the core struggle feels personal and clear.'],
+        resolution: ['the chapter ends with a satisfying turn of events.']
+    };
+
     const countWords = (html) => {
         return html.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
     };
@@ -348,9 +430,11 @@ function generateStory(book) {
         const sentences = [];
         sentences.push(`${pick(genre.opening, chapter)} In ${book.title}, ${book.author}'s presence can be felt through every line.`);
         sentences.push(`${pick(genre.scene, paragraphIndex)} The setting is described with a precision that makes ${genre.setting} come alive in the mind of the reader.`);
+        sentences.push(`${pick(specific.theme, chapter)} It is a story that belongs to this title and the life it evokes.`);
         sentences.push(`${pick(genre.conflict, chapter)} The tension is not only external, it plays out inside the main character with every choice they make.`);
+        sentences.push(`${pick(specific.scene, paragraphIndex)} That detail is unique to this book and deepens the sense of place.`);
         sentences.push(`${pick(genre.reflection, paragraphIndex)} The protagonist considers how the journey will change them, and the reader senses the deeper theme of the book.`);
-        sentences.push(`${pick(genre.resolution, chapter)} Each paragraph closes with a small shift that points toward what must come next.`);
+        sentences.push(`${pick(specific.resolution, chapter)} Each paragraph closes with a small shift that points toward what must come next.`);
         sentences.push(`The narrative keeps moving, combining details, emotion, and a clear sense of genre so that the story feels aligned with ${book.category}.`);
         return sentences.join(' ');
     };
