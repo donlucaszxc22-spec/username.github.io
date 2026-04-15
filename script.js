@@ -545,29 +545,24 @@ function generateStory(book) {
 
     storyHTML += `<h2>Epilogue</h2>`;
     const epilogueLines = [
-        `The final pages return to the heart of ${book.title}, closing the arc in a way that respects the genre and the emotion of the journey.`,
-        `For this book, the ending feels like the natural consequence of every choice made, and it leaves the reader with a lingering sense of meaning.`,
-        `There is a quiet lingering note in the conclusion, a reminder that the world of ${book.title} continues on beyond the last sentence.`,
-        `The tone reflects the genre and the journey, tying together the chapter themes and the book-specific details while offering a calm, satisfying close to the story.`,
-        `The final paragraph deepens the sense that the story has reached a thoughtful and natural resting point.`,
-        `This closing chapter does not rush; it lets the reader stay a bit longer in the atmosphere already built.`,
-        `A final reflection on the book's theme brings the reader back to the most important emotional truths.`,
-        `The conclusion adds a last gentle thought that leaves the story feeling complete without overstaying its welcome.`,
-        `The ending honors both the genre and the specific characters, making the finish feel earned and satisfying.`,
-        `The paragraph remains precise, focused, and clean while still giving the reader enough closure.`
+        `The final pages return to the heart of ${book.title}, closing the arc with a calm, genre-true conclusion.`,
+        `The tone reflects the journey and leaves the reader with a quiet sense of completion.`,
+        `It is short, focused, and still honors the book’s mood without extending the ending too far.`
     ];
 
-    let epilogueText = epilogueLines.join(' ');
-    let extraIndex = 0;
-    while (countWords(storyHTML + `<p>${epilogueText}</p>`) < 3000) {
-        const additionalSentence = epilogueLines[extraIndex % epilogueLines.length];
-        if (!epilogueText.includes(additionalSentence)) {
-            epilogueText += ` ${additionalSentence}`;
-        } else {
-            epilogueText += ` ${epilogueLines[(extraIndex + 1) % epilogueLines.length]}`;
-        }
-        extraIndex += 1;
+    const epilogueText = epilogueLines.join(' ');
+    let extraChapterHTML = '';
+    let extraParagraphCount = 0;
+    let fullStoryHTML = storyHTML + `<p>${epilogueText}</p>`;
+
+    while (countWords(fullStoryHTML) < 3000) {
+        const extraChapter = (extraParagraphCount % chapters) + 1;
+        extraChapterHTML += `<p>${makeParagraph(extraChapter, chapters + extraParagraphCount)}</p>`;
+        fullStoryHTML = storyHTML + extraChapterHTML + `<p>${epilogueText}</p>`;
+        extraParagraphCount += 1;
     }
+
+    storyHTML += extraChapterHTML;
     storyHTML += `<p>${epilogueText}</p>`;
 
     return storyHTML;
