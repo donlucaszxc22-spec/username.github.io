@@ -420,6 +420,65 @@ function generateStory(book) {
         resolution: ['the chapter ends with a satisfying turn of events.']
     };
 
+    const genreStructures = {
+        fiction: [
+            '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}',
+            '{scene} {opening} {conflict} {specificScene} {reflection} {resolution}',
+            '{opening} {specificTheme} {scene} {reflection} {conflict} {specificResolution}',
+            '{scene} {conflict} {opening} {specificScene} {resolution} {reflection}'
+        ],
+        'sci-fi': [
+            '{opening} {conflict} {scene} {specificTheme} {reflection} {resolution}',
+            '{scene} {opening} {specificTheme} {conflict} {specificScene} {reflection}',
+            '{opening} {scene} {reflection} {conflict} {specificTheme} {resolution}',
+            '{conflict} {opening} {scene} {specificScene} {reflection} {specificResolution}'
+        ],
+        educational: [
+            '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}',
+            '{opening} {specificTheme} {reflection} {scene} {conflict} {specificResolution}',
+            '{scene} {conflict} {specificScene} {opening} {reflection} {resolution}',
+            '{specificTheme} {opening} {scene} {conflict} {reflection} {specificResolution}'
+        ],
+        comedy: [
+            '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}',
+            '{scene} {opening} {specificScene} {conflict} {reflection} {specificResolution}',
+            '{opening} {specificTheme} {scene} {conflict} {resolution} {reflection}',
+            '{scene} {specificScene} {opening} {conflict} {reflection} {specificResolution}'
+        ],
+        horror: [
+            '{opening} {scene} {conflict} {specificTheme} {reflection} {resolution}',
+            '{scene} {opening} {specificScene} {conflict} {reflection} {specificResolution}',
+            '{conflict} {opening} {scene} {specificTheme} {reflection} {resolution}',
+            '{scene} {specificTheme} {opening} {conflict} {reflection} {specificResolution}'
+        ],
+        fantasy: [
+            '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}',
+            '{scene} {opening} {specificScene} {conflict} {reflection} {specificResolution}',
+            '{opening} {specificTheme} {scene} {reflection} {conflict} {resolution}',
+            '{scene} {conflict} {opening} {specificScene} {reflection} {specificResolution}'
+        ],
+        drama: [
+            '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}',
+            '{scene} {opening} {specificScene} {conflict} {reflection} {specificResolution}',
+            '{opening} {conflict} {scene} {specificTheme} {reflection} {resolution}',
+            '{specificTheme} {opening} {scene} {conflict} {reflection} {specificResolution}'
+        ],
+        romance: [
+            '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}',
+            '{scene} {opening} {specificScene} {conflict} {reflection} {specificResolution}',
+            '{opening} {specificTheme} {scene} {reflection} {conflict} {resolution}',
+            '{scene} {conflict} {opening} {specificScene} {reflection} {specificResolution}'
+        ],
+        action: [
+            '{opening} {scene} {conflict} {specificTheme} {reflection} {resolution}',
+            '{scene} {opening} {specificScene} {conflict} {resolution} {reflection}',
+            '{opening} {conflict} {scene} {specificTheme} {reflection} {specificResolution}',
+            '{scene} {specificTheme} {opening} {conflict} {resolution} {reflection}'
+        ]
+    };
+
+    const genericStructure = '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}';
+
     const countWords = (html) => {
         return html.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
     };
@@ -427,16 +486,17 @@ function generateStory(book) {
     const pick = (items, index) => items[index % items.length];
 
     const makeParagraph = (chapter, paragraphIndex) => {
-        const sentences = [];
-        sentences.push(`${pick(genre.opening, chapter)} In ${book.title}, ${book.author}'s presence can be felt through every line.`);
-        sentences.push(`${pick(genre.scene, paragraphIndex)} The setting is described with a precision that makes ${genre.setting} come alive in the mind of the reader.`);
-        sentences.push(`${pick(specific.theme, chapter)} It is a story that belongs to this title and the life it evokes.`);
-        sentences.push(`${pick(genre.conflict, chapter)} The tension is not only external, it plays out inside the main character with every choice they make.`);
-        sentences.push(`${pick(specific.scene, paragraphIndex)} That detail is unique to this book and deepens the sense of place.`);
-        sentences.push(`${pick(genre.reflection, paragraphIndex)} The protagonist considers how the journey will change them, and the reader senses the deeper theme of the book.`);
-        sentences.push(`${pick(specific.resolution, chapter)} Each paragraph closes with a small shift that points toward what must come next.`);
-        sentences.push(`The narrative keeps moving, combining details, emotion, and a clear sense of genre so that the story feels aligned with ${book.category}.`);
-        return sentences.join(' ');
+        const structureTemplate = pick(genreStructures[book.category] || [genericStructure], paragraphIndex);
+        const sentence = structureTemplate
+            .replace('{opening}', pick(genre.opening, chapter))
+            .replace('{scene}', pick(genre.scene, paragraphIndex))
+            .replace('{specificTheme}', pick(specific.theme, chapter))
+            .replace('{conflict}', pick(genre.conflict, chapter))
+            .replace('{specificScene}', pick(specific.scene, paragraphIndex))
+            .replace('{reflection}', pick(genre.reflection, paragraphIndex))
+            .replace('{specificResolution}', pick(specific.resolution, chapter))
+            .replace('{resolution}', pick(genre.resolution, chapter));
+        return `${sentence} The narrative keeps moving, combining details, emotion, and a clear sense of genre so that the story feels aligned with ${book.category}.`;
     };
 
     let storyHTML = `<h1>${book.title}</h1><p style="text-align:center"><i>The complete digital edition</i></p><br>`;
