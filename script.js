@@ -479,11 +479,9 @@ function generateStory(book) {
 
     const genericStructure = '{opening} {scene} {specificTheme} {conflict} {reflection} {resolution}';
 
-    const countWords = (html) => {
-        return html.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
-    };
-
     const pick = (items, index) => items[index % items.length];
+
+    const countWords = (html) => html.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
 
     const makeParagraph = (chapter, paragraphIndex) => {
         const structureTemplate = pick(genreStructures[book.category] || [genericStructure], paragraphIndex);
@@ -496,7 +494,46 @@ function generateStory(book) {
             .replace('{reflection}', pick(genre.reflection, paragraphIndex))
             .replace('{specificResolution}', pick(specific.resolution, chapter))
             .replace('{resolution}', pick(genre.resolution, chapter));
-        return `${sentence} The narrative keeps moving, combining details, emotion, and a clear sense of genre so that the story feels aligned with ${book.category}.`;
+
+        const extraLines = [
+            `In ${book.title}, ${book.author}'s voice is present throughout, making this chapter feel at once intimate and expansive.`,
+            `Each detail is chosen to keep the reader moving forward while preserving the emotional weight of the genre.`,
+            `The narrative balances vivid description with the rhythm of the story so that the paragraph feels like a complete scene.`,
+            `A sense of continuity is maintained even as the chapter explores new facets of the protagonist's world.`,
+            `The paragraph builds slowly and deliberately, revealing both the setting and the inner stakes.`,
+            `There is a larger pattern here, one that links the current moment to the broader arc of the book.`,
+            `The language is crafted to feel fresh with every sentence while staying true to the book's genre.`,
+            `The reader can feel the momentum of the plot alongside the nuanced emotional shifts.`,
+            `The chapter deepens the sense that everything unfolding is part of a meaningful journey.`,
+            `The prose takes care to show the contrast between the character's outer actions and inner thoughts.`
+        ];
+
+        const bookNotes = [
+            `This chapter highlights the title's core idea while remaining grounded in the story's atmosphere.`,
+            `${book.title} is treated not as a label but as the beating heart of the narrative.`,
+            `The book's theme is woven into every sentence so the reader is never removed from its world.`,
+            `A subtle reminder of the author’s style appears as the story moves through this chapter.`,
+            `The narrative uses the title as a way to anchor the reader in the book's unique experience.`
+        ];
+
+        const genreNotes = [
+            `The genre remains consistent throughout, giving each line the right emotional texture.`,
+            `No matter how many details appear, the story never loses its genre focus.`,
+            `The atmosphere stays true to the category of the book, reinforcing the intended tone.`,
+            `This chapter still feels like a natural part of the chosen genre rather than a simple summary.`,
+            `The writing keeps the genre's voice central while allowing the story to develop.`
+        ];
+
+        return [
+            sentence,
+            pick(extraLines, chapter + paragraphIndex),
+            pick(bookNotes, paragraphIndex),
+            pick(genreNotes, chapter),
+            pick(extraLines, paragraphIndex + 3),
+            pick(bookNotes, chapter),
+            pick(genreNotes, paragraphIndex + 2),
+            `The narrative keeps moving, combining details, emotion, and a clear sense of genre so that the story feels aligned with ${book.category}.`
+        ].join(' ');
     };
 
     let storyHTML = `<h1>${book.title}</h1><p style="text-align:center"><i>The complete digital edition</i></p><br>`;
@@ -507,13 +544,18 @@ function generateStory(book) {
     }
 
     storyHTML += `<h2>Epilogue</h2>`;
-    storyHTML += `<p>The final pages return to the heart of ${book.title}, closing the arc in a way that respects the genre and the emotion of the journey.</p>`;
-    storyHTML += `<p>For this book, the ending feels like the natural consequence of every choice made, and it leaves the reader with a lingering sense of meaning.</p>`;
-    storyHTML += `<p>There is a quiet lingering note in the conclusion, a reminder that the world of ${book.title} continues on beyond the last sentence.</p>`;
-
-    while (countWords(storyHTML) < 3000) {
-        storyHTML += `<p>${makeParagraph(chapters + 1, storyHTML.length)}</p>`;
+    let epilogueText = `The final pages return to the heart of ${book.title}, closing the arc in a way that respects the genre and the emotion of the journey. For this book, the ending feels like the natural consequence of every choice made, and it leaves the reader with a lingering sense of meaning. There is a quiet lingering note in the conclusion, a reminder that the world of ${book.title} continues on beyond the last sentence. The tone reflects the genre and the journey, tying together the chapter themes and the book-specific details while offering a calm, satisfying close to the story.`;
+    const extraEpilogueLines = [
+        `The final paragraph deepens the sense that the story has reached a thoughtful and natural resting point.`,
+        `This closing chapter does not rush; it lets the reader stay a bit longer in the atmosphere already built.`,
+        `A final reflection on the book's theme brings the reader back to the most important emotional truths.`,
+        `The conclusion adds a last gentle thought that leaves the story feeling complete without overstaying its welcome.`,
+        `The ending honors both the genre and the specific characters, making the finish feel earned and satisfying.`
+    ];
+    while (countWords(storyHTML + `<p>${epilogueText}</p>`) < 3000) {
+        epilogueText += ` ${pick(extraEpilogueLines, epilogueText.length)}`;
     }
+    storyHTML += `<p>${epilogueText}</p>`;
 
     return storyHTML;
 }
